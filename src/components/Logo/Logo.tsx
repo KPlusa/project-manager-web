@@ -1,5 +1,5 @@
-import logo from "../assets/logo.png";
-import "./logo.css"
+import logo from "../../assets/logo.png";
+import "./Logo.css"
 function Logo() {
   return (
     <>

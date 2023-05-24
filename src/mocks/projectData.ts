@@ -1,4 +1,4 @@
-import { Person, Project } from './components/ProjectTable';
+import { Person, Project } from '../components/ProjectTable/ProjectTable';
 
 export const person: Person[] = [
   {

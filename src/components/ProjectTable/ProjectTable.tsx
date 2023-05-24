@@ -20,7 +20,7 @@ import {
   darken,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { data, projectStatuses, projectTypes } from "../projectData";
+import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
 
 export type Person = {
   id: string;
@@ -291,7 +291,6 @@ export const CreateNewAccountModal = ({
       .map((column) => column.accessorKey);
   }, [columns]);
 
-  
   const handleSubmit = () => {
     //put your validation logic here
 
