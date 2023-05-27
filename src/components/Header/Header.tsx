@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Logo from "../Logo/Logo";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -30,18 +31,22 @@ function Header() {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-            <Nav.Link href="/">Strona główna</Nav.Link>
+              <Nav.Link href="/">Strona główna</Nav.Link>
               <NavDropdown
-                title="Wykaz projektów"
                 id="collasible-nav-dropdown"
                 onMouseEnter={handleDropdownToggle}
                 onMouseLeave={handleDropdownClose}
                 show={dropdownOpen}
-
+                title={
+                  <NavLink
+                    to="project"
+                    style={{ color: "inherit", textDecoration: "none" }}
+                  >
+                    Wykaz projektów
+                  </NavLink>
+                }
               >
-                <NavDropdown.Item href="/project">
-                  Projekty
-                </NavDropdown.Item>
+                <NavDropdown.Item href="project">Projekty</NavDropdown.Item>
                 <NavDropdown.Item href="/project-type">
                   Rodzaje projektów
                 </NavDropdown.Item>
