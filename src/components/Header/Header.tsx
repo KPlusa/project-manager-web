@@ -4,9 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Logo from "../Logo/Logo";
-// import { Link } from 'react-router-dom';
 
-function Menu() {
+function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
@@ -25,27 +24,29 @@ function Menu() {
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <Logo />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
+            <Nav.Link href="/">Strona główna</Nav.Link>
               <NavDropdown
                 title="Wykaz projektów"
                 id="collasible-nav-dropdown"
                 onMouseEnter={handleDropdownToggle}
                 onMouseLeave={handleDropdownClose}
                 show={dropdownOpen}
+
               >
-                <NavDropdown.Item href="#dodaj-rodzaj">
-                  dodaj projekt
+                <NavDropdown.Item href="/project">
+                  Projekty
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#edycja-rodzaj">
-                  edytuj rodzaj projektu
+                <NavDropdown.Item href="/project-type">
+                  Rodzaje projektów
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
+                <NavDropdown.Item href="/project-status">
+                  Statusy Projektów
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -56,4 +57,4 @@ function Menu() {
   );
 }
 
-export default Menu;
+export default Header;

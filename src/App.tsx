@@ -1,14 +1,11 @@
 import "./App.css";
-import Footer from "./components/Footer/Footer";
-import Menu from "./components/Navbar/Menu";
-import ProjectTable from "./components/ProjectTable/ProjectTable";
+import Router from "./components/Router/Router";
+
 
 function App() {
   return (
     <>
-      <Menu />
-      <ProjectTable />
-      <Footer />
+      <Router/>
     </>
   );
 }
