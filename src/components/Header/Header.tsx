@@ -39,18 +39,18 @@ function Header() {
                 show={dropdownOpen}
                 title={
                   <NavLink
-                    to="project"
+                    to="/projects"
                     style={{ color: "inherit", textDecoration: "none" }}
                   >
                     Wykaz projektów
                   </NavLink>
                 }
               >
-                <NavDropdown.Item href="project">Projekty</NavDropdown.Item>
-                <NavDropdown.Item href="/project-type">
+                <NavDropdown.Item href="/projects">Projekty</NavDropdown.Item>
+                <NavDropdown.Item href="/project-types">
                   Rodzaje projektów
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/project-status">
+                <NavDropdown.Item href="/project-statuses">
                   Statusy Projektów
                 </NavDropdown.Item>
               </NavDropdown>

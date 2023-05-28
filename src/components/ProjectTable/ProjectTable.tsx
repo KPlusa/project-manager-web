@@ -22,15 +22,6 @@ import {
 import { Delete, Edit } from "@mui/icons-material";
 import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
 
-export type Person = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: number;
-  state: string;
-};
-
 export type Project = {
   idProject: number;
   projectType: string;

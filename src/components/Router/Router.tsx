@@ -21,7 +21,7 @@ function Router() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Home />} />
-              <Route path="project" element={<Projects />} />
+              <Route path="/projects" element={<Projects />} />
             </Route>
           </Routes>
         </BrowserRouter>
