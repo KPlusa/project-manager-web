@@ -13,29 +13,30 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  MenuItem,
   Stack,
   TextField,
   Tooltip,
   darken,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
-import { Project } from "../../models/project";
+import { projectTypesData } from "../../mocks/projectTypesData";
+import { ProjectType } from "../../models/projectType";
 
 const ProjectTable = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState<Project[]>(() => data);
+  const [tableData, setTableData] = useState<ProjectType[]>(
+    () => projectTypesData
+  );
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
 
-  const handleCreateNewRow = (values: Project) => {
+  const handleCreateNewRow = (values: ProjectType) => {
     tableData.push(values);
     setTableData([...tableData]);
   };
 
-  const handleSaveRowEdits: MaterialReactTableProps<Project>["onEditingRowSave"] =
+  const handleSaveRowEdits: MaterialReactTableProps<ProjectType>["onEditingRowSave"] =
     async ({ exitEditingMode, row, values }) => {
       if (!Object.keys(validationErrors).length) {
         tableData[row.index] = values;
@@ -50,7 +51,7 @@ const ProjectTable = () => {
   };
 
   const handleDeleteRow = useCallback(
-    (row: MRT_Row<Project>) => {
+    (row: MRT_Row<ProjectType>) => {
       if (
         !confirm(`Are you sure you want to delete ${row.getValue("firstName")}`)
       ) {
@@ -65,16 +66,13 @@ const ProjectTable = () => {
 
   const getCommonEditTextFieldProps = useCallback(
     (
-      cell: MRT_Cell<Project>
-    ): MRT_ColumnDef<Project>["muiTableBodyCellEditTextFieldProps"] => {
+      cell: MRT_Cell<ProjectType>
+    ): MRT_ColumnDef<ProjectType>["muiTableBodyCellEditTextFieldProps"] => {
       return {
         error: !!validationErrors[cell.id],
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
-          const isValid =
-            cell.column.id === "endDate" || cell.column.id === "comments"
-              ? true
-              : validateRequired(event.target.value);
+          const isValid = validateRequired(event.target.value);
           if (!isValid) {
             //set validation error for cell if invalid
             setValidationErrors({
@@ -94,81 +92,14 @@ const ProjectTable = () => {
     [validationErrors]
   );
 
-  const columns = useMemo<MRT_ColumnDef<Project>[]>(
+  const columns = useMemo<MRT_ColumnDef<ProjectType>[]>(
     () => [
       {
-        accessorKey: "projectType",
-        header: "Rodzaj Projektu",
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: {
-          select: true, //change to select for a dropdown
-          children: projectTypes.map((type) => (
-            <MenuItem key={type} value={type}>
-              {type}
-            </MenuItem>
-          )),
-        },
-      },
-      {
-        accessorKey: "projectStatus",
-        header: "Status Projektu",
-        size: 140,
-        muiTableBodyCellEditTextFieldProps: {
-          select: true, //change to select for a dropdown
-          children: projectStatuses.map((status) => (
-            <MenuItem key={status} value={status}>
-              {status}
-            </MenuItem>
-          )),
-        },
-      },
-      {
-        accessorKey: "projectNumber",
-        header: "Nr Projektu",
+        accessorKey: "projectTypeName",
+        header: "Nazwa Rodzaju Projektu",
+        size: 500,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: "projectTitle",
-        header: "Temat Projektu",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-      },
-      {
-        accessorKey: "startDate",
-        header: "Data Rozpoczęcia",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "date",
-        }),
-      },
-      {
-        accessorKey: "endDate",
-        header: "Data Zakończenia",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "date",
-          InputLabelProps: { shrink: true },
-        }),
-      },
-      {
-        accessorKey: "sum",
-        header: "Kwota",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "number",
-        }),
-      },
-      {
-        accessorKey: "comments",
-        header: "Uwagi",
-        size: 80,
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-          type: "float",
         }),
       },
     ],
@@ -184,7 +115,7 @@ const ProjectTable = () => {
             muiTableHeadCellProps: {
               align: "center",
             },
-            size: 120,
+            size: 100,
           },
         }}
         columns={columns}
@@ -221,7 +152,7 @@ const ProjectTable = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Dodaj nowy projekt
+            Dodaj nowy rodzaj projektu
           </Button>
         )}
       />
@@ -236,9 +167,9 @@ const ProjectTable = () => {
 };
 
 interface CreateModalProps {
-  columns: MRT_ColumnDef<Project>[];
+  columns: MRT_ColumnDef<ProjectType>[];
   onClose: () => void;
-  onSubmit: (values: Project) => void;
+  onSubmit: (values: ProjectType) => void;
   open: boolean;
 }
 
@@ -279,9 +210,6 @@ export const CreateNewAccountModal = ({
 
     // Iterate through the required fields and check for empty values
     requiredFields.forEach((field) => {
-      if (field === "endDate" || field === "comments") {
-        return;
-      }
       const value = values[field!];
       if (!validateRequired(value)) {
         newValidationErrors[field!] = `${field} jest wymagane`;
@@ -300,7 +228,7 @@ export const CreateNewAccountModal = ({
 
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Dodaj nowy projekt</DialogTitle>
+      <DialogTitle textAlign="center">Dodaj nowy rodzaj projektu</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -310,58 +238,18 @@ export const CreateNewAccountModal = ({
               gap: "1.5rem",
             }}
           >
-            {columns.map((column) =>
-              column.accessorKey === "projectStatus" ? (
-                <TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  select // Render a dropdown menu
-                  value={values[column.accessorKey]}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={Boolean(validationErrors[column.accessorKey])}
-                  helperText={validationErrors[column.accessorKey]}
-                >
-                  {projectStatuses.map((status) => (
-                    <MenuItem key={status} value={status}>
-                      {status}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              ) : column.accessorKey === "projectType" ? (
-                <TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  select // Render a dropdown menu
-                  value={values[column.accessorKey]}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={Boolean(validationErrors[column.accessorKey])}
-                  helperText={validationErrors[column.accessorKey]}
-                >
-                  {projectTypes.map((type) => (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              ) : (
-                <TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={Boolean(validationErrors[column.accessorKey!])}
-                  helperText={validationErrors[column.accessorKey!]}
-                />
-              )
-            )}
+            {columns.map((column) => (
+              <TextField
+                key={column.accessorKey}
+                label={column.header}
+                name={column.accessorKey}
+                onChange={(e) =>
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }
+                error={Boolean(validationErrors[column.accessorKey!])}
+                helperText={validationErrors[column.accessorKey!]}
+              />
+            ))}
           </Stack>
         </form>
       </DialogContent>

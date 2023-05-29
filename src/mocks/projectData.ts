@@ -1,4 +1,4 @@
-import { Project } from "../components/ProjectTable/ProjectTable";
+import { Project } from "../models/project";
 
 export const projectTypes = [
   "Zewnętrzny",
