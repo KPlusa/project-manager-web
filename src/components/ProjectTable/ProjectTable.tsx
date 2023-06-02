@@ -52,7 +52,11 @@ const ProjectTable = () => {
   const handleDeleteRow = useCallback(
     (row: MRT_Row<Project>) => {
       if (
-        !confirm(`Are you sure you want to delete ${row.getValue("firstName")}`)
+        !confirm(
+          `Czy jesteś pewien, że chcesz usunąć ten projekt: ${row.getValue(
+            "projectType"
+          )}`
+        )
       ) {
         return;
       }
@@ -79,7 +83,7 @@ const ProjectTable = () => {
             //set validation error for cell if invalid
             setValidationErrors({
               ...validationErrors,
-              [cell.id]: `${cell.column.columnDef.header} jest wymagane`,
+              [cell.id]: `To pole jest wymagane`,
             });
           } else {
             //remove validation error for cell if valid
@@ -225,7 +229,7 @@ const ProjectTable = () => {
           </Button>
         )}
       />
-      <CreateNewAccountModal
+      <CreateNewProjectModal
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
@@ -243,7 +247,7 @@ interface CreateModalProps {
 }
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({
+export const CreateNewProjectModal = ({
   open,
   columns,
   onClose,
@@ -264,6 +268,7 @@ export const CreateNewAccountModal = ({
     if (open) {
       setValidationErrors({});
     }
+    document.title = "Projekty";
   }, [open]);
 
   const requiredFields = useMemo(() => {
@@ -284,7 +289,7 @@ export const CreateNewAccountModal = ({
       }
       const value = values[field!];
       if (!validateRequired(value)) {
-        newValidationErrors[field!] = `${field} jest wymagane`;
+        newValidationErrors[field!] = `To pole jest wymagane`;
       }
     });
 
@@ -297,7 +302,10 @@ export const CreateNewAccountModal = ({
       setValidationErrors(newValidationErrors);
     }
   };
-
+  const handleCancel = () => {
+    setValues({});
+    onClose();
+  };
   return (
     <Dialog open={open}>
       <DialogTitle textAlign="center">Dodaj nowy projekt</DialogTitle>
@@ -349,6 +357,21 @@ export const CreateNewAccountModal = ({
                     </MenuItem>
                   ))}
                 </TextField>
+              ) : column.accessorKey === "startDate" ||
+                column.accessorKey === "endDate" ? (
+                <TextField
+                  key={column.accessorKey}
+                  label={column.header}
+                  name={column.accessorKey}
+                  type="date" // Render a date input
+                  value={values[column.accessorKey]}
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
+                  error={Boolean(validationErrors[column.accessorKey])}
+                  helperText={validationErrors[column.accessorKey]}
+                  InputLabelProps={{ shrink: true }}
+                />
               ) : (
                 <TextField
                   key={column.accessorKey}
@@ -366,9 +389,9 @@ export const CreateNewAccountModal = ({
         </form>
       </DialogContent>
       <DialogActions sx={{ p: "1.25rem" }}>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button color="secondary" onClick={handleSubmit} variant="contained">
-          Create New Account
+        <Button onClick={handleCancel}>Anuluj</Button>
+        <Button color="primary" onClick={handleSubmit} variant="contained">
+          Dodaj nowy projekt
         </Button>
       </DialogActions>
     </Dialog>

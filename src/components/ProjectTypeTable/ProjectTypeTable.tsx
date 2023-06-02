@@ -53,7 +53,7 @@ const ProjectTable = () => {
   const handleDeleteRow = useCallback(
     (row: MRT_Row<ProjectType>) => {
       if (
-        !confirm(`Are you sure you want to delete ${row.getValue("firstName")}`)
+        !confirm(`Czy jesteś pewien, że chcesz usunąć ten projekt: ${row.getValue("projectType")}`)
       ) {
         return;
       }
@@ -77,7 +77,7 @@ const ProjectTable = () => {
             //set validation error for cell if invalid
             setValidationErrors({
               ...validationErrors,
-              [cell.id]: `${cell.column.columnDef.header} jest wymagane`,
+              [cell.id]: `$To pole jest wymagane`,
             });
           } else {
             //remove validation error for cell if valid
@@ -156,7 +156,7 @@ const ProjectTable = () => {
           </Button>
         )}
       />
-      <CreateNewAccountModal
+      <CreateNewProjectTypeModal
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
@@ -174,7 +174,7 @@ interface CreateModalProps {
 }
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({
+export const CreateNewProjectTypeModal = ({
   open,
   columns,
   onClose,
@@ -212,7 +212,7 @@ export const CreateNewAccountModal = ({
     requiredFields.forEach((field) => {
       const value = values[field!];
       if (!validateRequired(value)) {
-        newValidationErrors[field!] = `${field} jest wymagane`;
+        newValidationErrors[field!] = `To pole jest wymagane`;
       }
     });
 
@@ -225,7 +225,10 @@ export const CreateNewAccountModal = ({
       setValidationErrors(newValidationErrors);
     }
   };
-
+  const handleCancel = () => {
+    setValues({});
+    onClose();
+  };
   return (
     <Dialog open={open}>
       <DialogTitle textAlign="center">Dodaj nowy rodzaj projektu</DialogTitle>
@@ -254,9 +257,9 @@ export const CreateNewAccountModal = ({
         </form>
       </DialogContent>
       <DialogActions sx={{ p: "1.25rem" }}>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button color="secondary" onClick={handleSubmit} variant="contained">
-          Create New Account
+        <Button onClick={handleCancel}>Anuluj</Button>
+        <Button color="primary" onClick={handleSubmit} variant="contained">
+          Dodaj nowy rodzaj projektu
         </Button>
       </DialogActions>
     </Dialog>
