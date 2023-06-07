@@ -18,6 +18,8 @@ import {
   TextField,
   Tooltip,
   darken,
+  Checkbox,
+  FormControlLabel
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
@@ -100,6 +102,16 @@ const ProjectTable = () => {
 
   const columns = useMemo<MRT_ColumnDef<Project>[]>(
     () => [
+      {
+        accessorKey: "idProject",
+        header: "identyfikator",
+        size: 80,
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+          type: "number",
+          disabled: true,
+        }),
+      },
       {
         accessorKey: "projectType",
         header: "Rodzaj Projektu",
@@ -220,6 +232,7 @@ const ProjectTable = () => {
           </Box>
         )}
         renderTopToolbarCustomActions={() => (
+          <>
           <Button
             color="primary"
             onClick={() => setCreateModalOpen(true)}
@@ -227,6 +240,9 @@ const ProjectTable = () => {
           >
             Dodaj nowy projekt
           </Button>
+          <FormControlLabel control={<Checkbox />} label="Pokaż szczegóły" />
+          </>
+          
         )}
       />
       <CreateNewProjectModal
@@ -373,7 +389,7 @@ export const CreateNewProjectModal = ({
                   helperText={validationErrors[column.accessorKey]}
                   InputLabelProps={{ shrink: true }}
                 />
-              ) : (
+              ) : column.accessorKey === "idProject" ? null : (
                 <TextField
                   key={column.accessorKey}
                   label={column.header}
