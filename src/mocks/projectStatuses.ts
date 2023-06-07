@@ -1,5 +1,5 @@
 import { ProjectStatus } from "../models/projectStatus";
-export const projectTypesData: ProjectStatus[] = [
+export const projectStatusesData: ProjectStatus[] = [
   {
     idProjectStatus: 1,
     projectStatusName: "Nowy",

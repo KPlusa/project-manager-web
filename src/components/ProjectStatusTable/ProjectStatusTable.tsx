@@ -19,24 +19,24 @@ import {
   darken,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { projectTypesData } from "../../mocks/projectTypesData";
-import { ProjectType } from "../../models/projectType";
+import { projectStatusesData } from "../../mocks/projectStatuses";
+import { ProjectStatus } from "../../models/projectStatus";
 
 const ProjectTable = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState<ProjectType[]>(
-    () => projectTypesData
+  const [tableData, setTableData] = useState<ProjectStatus[]>(
+    () => projectStatusesData
   );
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
 
-  const handleCreateNewRow = (values: ProjectType) => {
+  const handleCreateNewRow = (values: ProjectStatus) => {
     tableData.push(values);
     setTableData([...tableData]);
   };
 
-  const handleSaveRowEdits: MaterialReactTableProps<ProjectType>["onEditingRowSave"] =
+  const handleSaveRowEdits: MaterialReactTableProps<ProjectStatus>["onEditingRowSave"] =
     async ({ exitEditingMode, row, values }) => {
       if (!Object.keys(validationErrors).length) {
         tableData[row.index] = values;
@@ -51,11 +51,11 @@ const ProjectTable = () => {
   };
 
   const handleDeleteRow = useCallback(
-    (row: MRT_Row<ProjectType>) => {
+    (row: MRT_Row<ProjectStatus>) => {
       if (
         !confirm(
-          `Czy jesteś pewien, że chcesz usunąć ten typ projektu: ${row.getValue(
-            "projectType"
+          `Czy jesteś pewien, że chcesz usunąć ten status projektu: ${row.getValue(
+            "ProjectStatus"
           )}`
         )
       ) {
@@ -70,8 +70,8 @@ const ProjectTable = () => {
 
   const getCommonEditTextFieldProps = useCallback(
     (
-      cell: MRT_Cell<ProjectType>
-    ): MRT_ColumnDef<ProjectType>["muiTableBodyCellEditTextFieldProps"] => {
+      cell: MRT_Cell<ProjectStatus>
+    ): MRT_ColumnDef<ProjectStatus>["muiTableBodyCellEditTextFieldProps"] => {
       return {
         error: !!validationErrors[cell.id],
         helperText: validationErrors[cell.id],
@@ -96,11 +96,11 @@ const ProjectTable = () => {
     [validationErrors]
   );
 
-  const columns = useMemo<MRT_ColumnDef<ProjectType>[]>(
+  const columns = useMemo<MRT_ColumnDef<ProjectStatus>[]>(
     () => [
       {
-        accessorKey: "projectTypeName",
-        header: "Nazwa Rodzaju Projektu",
+        accessorKey: "projectStatusName",
+        header: "Nazwa Statusu Projektu",
         size: 500,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -156,11 +156,11 @@ const ProjectTable = () => {
             onClick={() => setCreateModalOpen(true)}
             variant="contained"
           >
-            Dodaj nowy rodzaj projektu
+            Dodaj nowy status projektu
           </Button>
         )}
       />
-      <CreateNewProjectTypeModal
+      <CreateNewProjectStatusModal
         columns={columns}
         open={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
@@ -171,14 +171,14 @@ const ProjectTable = () => {
 };
 
 interface CreateModalProps {
-  columns: MRT_ColumnDef<ProjectType>[];
+  columns: MRT_ColumnDef<ProjectStatus>[];
   onClose: () => void;
-  onSubmit: (values: ProjectType) => void;
+  onSubmit: (values: ProjectStatus) => void;
   open: boolean;
 }
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewProjectTypeModal = ({
+export const CreateNewProjectStatusModal = ({
   open,
   columns,
   onClose,
@@ -231,11 +231,12 @@ export const CreateNewProjectTypeModal = ({
     }
   };
   const handleCancel = () => {
+    //setValues({});
     onClose();
   };
   return (
     <Dialog open={open}>
-      <DialogTitle textAlign="center">Dodaj nowy rodzaj projektu</DialogTitle>
+      <DialogTitle textAlign="center">Dodaj nowy status projektu</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Stack
@@ -263,7 +264,7 @@ export const CreateNewProjectTypeModal = ({
       <DialogActions sx={{ p: "1.25rem" }}>
         <Button onClick={handleCancel}>Anuluj</Button>
         <Button color="primary" onClick={handleSubmit} variant="contained">
-          Dodaj nowy rodzaj projektu
+          Dodaj nowy status projektu
         </Button>
       </DialogActions>
     </Dialog>

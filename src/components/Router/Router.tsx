@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import Home from "../../pages/Home/Home";
 import Projects from "../../pages/Projects/Projects";
 import ProjectTypes from "../../pages/ProjectTypes/ProjectTypes";
+import ProjectStatuses from "../../pages/ProjectStatuses/ProjectStatuses";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 function Router() {
   const Layout = () => {
@@ -24,6 +25,7 @@ function Router() {
               <Route path="/" element={<Home />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/project-types" element={<ProjectTypes />} />
+              <Route path="/project-statuses" element={<ProjectStatuses />} />
             </Route>
           </Routes>
         </BrowserRouter>

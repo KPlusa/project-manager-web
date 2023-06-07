@@ -1,5 +1,5 @@
 import ProjectTypesTable from "../../components/ProjectTypeTable/ProjectTypeTable"
-function Projects() {
+function ProjectTypes() {
   return (
     <>
       <ProjectTypesTable/>
@@ -7,4 +7,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default ProjectTypes;

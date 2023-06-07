@@ -253,12 +253,12 @@ export const CreateNewProjectModal = ({
   onClose,
   onSubmit,
 }: CreateModalProps) => {
-  const [values, setValues] = useState<any>(() =>
-    columns.reduce((acc, column) => {
-      acc[column.accessorKey ?? ""] = "";
-      return acc;
-    }, {} as any)
-  );
+  const clearedValues = columns.reduce((acc, column) => {
+    acc[column.accessorKey ?? ""] = "";
+    return acc;
+  }, {} as any);
+
+  const [values, setValues] = useState<any>(clearedValues);
 
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
@@ -266,6 +266,7 @@ export const CreateNewProjectModal = ({
 
   useEffect(() => {
     if (open) {
+      setValues({ ...clearedValues });
       setValidationErrors({});
     }
     document.title = "Projekty";
@@ -279,7 +280,6 @@ export const CreateNewProjectModal = ({
 
   const handleSubmit = () => {
     //put your validation logic here
-
     const newValidationErrors: Record<string, string> = {};
 
     // Iterate through the required fields and check for empty values
@@ -295,7 +295,9 @@ export const CreateNewProjectModal = ({
 
     if (Object.keys(newValidationErrors).length === 0) {
       // No validation errors, submit the values
+
       onSubmit(values);
+
       onClose();
     } else {
       // Update the validation errors state
@@ -303,7 +305,6 @@ export const CreateNewProjectModal = ({
     }
   };
   const handleCancel = () => {
-    setValues({});
     onClose();
   };
   return (
