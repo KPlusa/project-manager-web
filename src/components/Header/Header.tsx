@@ -7,17 +7,30 @@ import Logo from "../Logo/Logo";
 import { NavLink } from "react-router-dom";
 
 function Header() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownProjectsOpen, setDropdownProjectsOpen] = useState(false);
+  const [dropdownStatsOpen, setDropdownStatsOpen] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
-  const handleDropdownToggle = () => {
+  const handleDropdownProjectsToggle = () => {
     clearTimeout(timeoutRef.current!);
-    setDropdownOpen(true);
+    setDropdownProjectsOpen(true);
+    setDropdownStatsOpen(false);
   };
 
-  const handleDropdownClose = () => {
+  const handleDropdownProjectsClose = () => {
     timeoutRef.current = setTimeout(() => {
-      setDropdownOpen(false);
+      setDropdownProjectsOpen(false);
+    }, 200);
+  };
+  const handleDropdownStatsToggle = () => {
+    clearTimeout(timeoutRef.current!);
+    setDropdownStatsOpen(true);
+    setDropdownProjectsOpen(false);
+  };
+
+  const handleDropdownStatsClose = () => {
+    timeoutRef.current = setTimeout(() => {
+      setDropdownStatsOpen(false);
     }, 200);
   };
 
@@ -34,9 +47,9 @@ function Header() {
               <Nav.Link href="/">Strona główna</Nav.Link>
               <NavDropdown
                 id="collasible-nav-dropdown"
-                onMouseEnter={handleDropdownToggle}
-                onMouseLeave={handleDropdownClose}
-                show={dropdownOpen}
+                onMouseEnter={handleDropdownProjectsToggle}
+                onMouseLeave={handleDropdownProjectsClose}
+                show={dropdownProjectsOpen}
                 title={
                   <NavLink
                     to="/projects"
@@ -52,6 +65,27 @@ function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/project-statuses">
                   Statusy Projektów
+                </NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown
+                id="collasible-nav-dropdown"
+                onMouseEnter={handleDropdownStatsToggle}
+                onMouseLeave={handleDropdownStatsClose}
+                show={dropdownStatsOpen}
+                title={
+                  <NavLink
+                    to="/project-stats"
+                    style={{ color: "inherit", textDecoration: "none" }}
+                  >
+                    Statystyki projektów
+                  </NavLink>
+                }
+              >
+                <NavDropdown.Item href="/project-types-chart">
+                  Projekty graficznie wg rodzaj
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/project-statuses-chart">
+                  Projekty graficznie wg status
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
