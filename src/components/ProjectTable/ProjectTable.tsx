@@ -18,8 +18,8 @@ import {
   TextField,
   Tooltip,
   darken,
-  Checkbox,
-  FormControlLabel
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
@@ -31,6 +31,11 @@ const ProjectTable = () => {
   const [validationErrors, setValidationErrors] = useState<{
     [cellId: string]: string;
   }>({});
+  const [checked, setChecked] = useState(true);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
 
   const handleCreateNewRow = (values: Project) => {
     tableData.push(values);
@@ -104,7 +109,7 @@ const ProjectTable = () => {
     () => [
       {
         accessorKey: "idProject",
-        header: "identyfikator",
+        header: "Identyfikator",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -203,7 +208,11 @@ const ProjectTable = () => {
             size: 120,
           },
         }}
-        columns={columns}
+        columns={
+          checked
+            ? columns
+            : columns.filter((column) => column.accessorKey !== "idProject")
+        }
         data={tableData}
         muiTableBodyProps={{
           sx: (theme) => ({
@@ -233,16 +242,18 @@ const ProjectTable = () => {
         )}
         renderTopToolbarCustomActions={() => (
           <>
-          <Button
-            color="primary"
-            onClick={() => setCreateModalOpen(true)}
-            variant="contained"
-          >
-            Dodaj nowy projekt
-          </Button>
-          <FormControlLabel control={<Checkbox />} label="Pokaż szczegóły" />
+            <Button
+              color="primary"
+              onClick={() => setCreateModalOpen(true)}
+              variant="contained"
+            >
+              Dodaj nowy projekt
+            </Button>
+            <FormControlLabel
+              control={<Switch checked={checked} onChange={handleChange} />}
+              label="Pokaż szczegóły"
+            />
           </>
-          
         )}
       />
       <CreateNewProjectModal
