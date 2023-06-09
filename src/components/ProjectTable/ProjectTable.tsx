@@ -25,6 +25,9 @@ import { Delete, Edit } from "@mui/icons-material";
 import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
 import { Project } from "../../models/project";
 import "./table.css";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const ProjectTable = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -159,25 +162,68 @@ const ProjectTable = () => {
         }),
       },
       {
-        accessorKey: "startDate",
+        accessorFn: (row) => new Date(row.startDate),
+        id: "startDate",
+        filterFn: "greaterThanOrEqualTo",
+        sortingFn: "datetime",
         header: "Data Rozpoczęcia",
+        Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(),
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
           type: "date",
         }),
+        Filter: ({ column }) => (
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              onChange={(newValue) => {
+                column.setFilterValue(newValue);
+              }}
+              slotProps={{
+                textField: {
+                  helperText: "Filter Mode: Greater Than",
+                  sx: { minWidth: "120px" },
+                  variant: "standard",
+                },
+              }}
+              value={column.getFilterValue()}
+            />
+          </LocalizationProvider>
+        ),
       },
       {
-        accessorKey: "endDate",
+        accessorFn: (row) => (row.endDate ? new Date(row.endDate) : undefined),
+        id: "endDate",
         header: "Data Zakończenia",
+        filterFn: "lessThanOrEqualTo",
+        sortingFn: "datetime",
+        Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(),
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
           type: "date",
           InputLabelProps: { shrink: true },
         }),
+        Filter: ({ column }) => (
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              onChange={(newValue) => {
+                column.setFilterValue(newValue);
+              }}
+              slotProps={{
+                textField: {
+                  helperText: "Filter Mode: Less Than",
+                  sx: { minWidth: "120px" },
+                  variant: "standard",
+                },
+              }}
+              value={column.getFilterValue()}
+            />
+          </LocalizationProvider>
+        ),
       },
       {
         accessorKey: "sum",
         header: "Kwota",
+        filterFn: "between",
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
