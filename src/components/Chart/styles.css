@@ -1,10 +1,6 @@
 .Chart {
-    text-align: center;
-  }
-  #root {
-    background-color: #313338;
-  }
-  .recharts-tooltip-wrapper .recharts-tooltip-wrapper-left .recharts-tooltip-wrapper-bottom{
-    background-color: yellow; /* Change the color here */
-  }
-  
+  text-align: center;
+}
+#root {
+  background-color: #313338;
+}

@@ -1,9 +1,9 @@
 import Chart from "../../components/Chart/Chart";
-import { ProjectTypesChartData } from "../../mocks/projectTypesChartData";
+import { ProjectStatusesChartData } from "../../mocks/projectStatusesChartData";
 function ProjectTypesChart() {
   return (
     <>
-      <Chart data={ProjectTypesChartData} />
+      <Chart data={ProjectStatusesChartData} />
     </>
   );
 }

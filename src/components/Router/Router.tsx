@@ -4,7 +4,8 @@ import Home from "../../pages/Home/Home";
 import Projects from "../../pages/Projects/Projects";
 import ProjectTypes from "../../pages/ProjectTypes/ProjectTypes";
 import ProjectStatuses from "../../pages/ProjectStatuses/ProjectStatuses";
-import ProjectTypesChart from "../../pages/ProjectTypesChart/ProjectTypesChart"
+import ProjectTypesChart from "../../pages/ProjectTypesChart/ProjectTypesChart";
+import ProjectStatusesChart from "../../pages/ProjectStatusesChart/ProjectStatusesChart";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 function Router() {
   const Layout = () => {
@@ -27,7 +28,14 @@ function Router() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/project-types" element={<ProjectTypes />} />
               <Route path="/project-statuses" element={<ProjectStatuses />} />
-              <Route path="/project-types-chart" element={<ProjectTypesChart />} />
+              <Route
+                path="/project-types-chart"
+                element={<ProjectTypesChart />}
+              />
+              <Route
+                path="/project-statuses-chart"
+                element={<ProjectStatusesChart />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
