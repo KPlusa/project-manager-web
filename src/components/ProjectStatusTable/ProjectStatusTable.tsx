@@ -22,7 +22,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import { projectStatusesData } from "../../mocks/projectStatuses";
 import { ProjectStatus } from "../../models/projectStatus";
 
-const ProjectTable = () => {
+const ProjectStatusTable = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState<ProjectStatus[]>(
     () => projectStatusesData
@@ -111,7 +111,8 @@ const ProjectTable = () => {
   );
 
   return (
-    <>
+    <div className="table-container">
+      <h2 className="table-title">Statusy Projektów</h2>
       <MaterialReactTable
         displayColumnDefOptions={{
           "mrt-row-actions": {
@@ -166,7 +167,7 @@ const ProjectTable = () => {
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
-    </>
+    </div>
   );
 };
 
@@ -273,4 +274,4 @@ export const CreateNewProjectStatusModal = ({
 
 const validateRequired = (value: string) => !!value.length;
 
-export default ProjectTable;
+export default ProjectStatusTable;

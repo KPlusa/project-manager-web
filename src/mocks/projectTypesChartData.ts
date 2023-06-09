@@ -1,5 +1,5 @@
 import { ProjectTypeChart } from "../models/projectTypeChart";
-export const ProjectTypesChartData: ProjectTypeChart[] = [
+export const projectTypesChartData: ProjectTypeChart[] = [
   {
     name: "Zewnętrzny",
     number: 2,

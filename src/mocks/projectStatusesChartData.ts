@@ -1,5 +1,5 @@
 import { ProjectStatusChart } from "../models/projectStatusChart";
-export const ProjectStatusesChartData: ProjectStatusChart[] = [
+export const projectStatusesChartData: ProjectStatusChart[] = [
   {
     name: "Rozpoczęty",
     number: 1,

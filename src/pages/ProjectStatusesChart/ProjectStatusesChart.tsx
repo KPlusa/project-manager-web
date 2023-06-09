@@ -1,9 +1,12 @@
 import Chart from "../../components/Chart/Chart";
-import { ProjectStatusesChartData } from "../../mocks/projectStatusesChartData";
+import { projectStatusesChartData } from "../../mocks/projectStatusesChartData";
 function ProjectTypesChart() {
   return (
     <>
-      <Chart data={ProjectStatusesChartData} />
+      <Chart
+        data={projectStatusesChartData}
+        title="Projekty graficznie według statusu projektu"
+      />
     </>
   );
 }

@@ -24,6 +24,7 @@ import {
 import { Delete, Edit } from "@mui/icons-material";
 import { data, projectStatuses, projectTypes } from "../../mocks/projectData";
 import { Project } from "../../models/project";
+import "./table.css";
 
 const ProjectTable = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -197,7 +198,8 @@ const ProjectTable = () => {
   );
 
   return (
-    <>
+    <div className="table-container">
+      <h2 className="table-title">Projekty</h2>
       <MaterialReactTable
         displayColumnDefOptions={{
           "mrt-row-actions": {
@@ -224,6 +226,7 @@ const ProjectTable = () => {
         editingMode="modal" //default
         enableColumnOrdering
         enableEditing
+        enableColumnFilterModes
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
@@ -262,7 +265,7 @@ const ProjectTable = () => {
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
-    </>
+    </div>
   );
 };
 

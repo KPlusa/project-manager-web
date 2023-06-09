@@ -6,6 +6,7 @@ import ProjectTypes from "../../pages/ProjectTypes/ProjectTypes";
 import ProjectStatuses from "../../pages/ProjectStatuses/ProjectStatuses";
 import ProjectTypesChart from "../../pages/ProjectTypesChart/ProjectTypesChart";
 import ProjectStatusesChart from "../../pages/ProjectStatusesChart/ProjectStatusesChart";
+import ProjectStats from "../ProjectStats/ProjectStats";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 function Router() {
   const Layout = () => {
@@ -36,6 +37,7 @@ function Router() {
                 path="/project-statuses-chart"
                 element={<ProjectStatusesChart />}
               />
+              <Route path="/project-stats" element={<ProjectStats />} />
             </Route>
           </Routes>
         </BrowserRouter>

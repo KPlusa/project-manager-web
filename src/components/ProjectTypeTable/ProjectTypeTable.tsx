@@ -111,7 +111,8 @@ const ProjectTable = () => {
   );
 
   return (
-    <>
+    <div className="table-container">
+      <h2 className="table-title">Rodzaje Projektów</h2>
       <MaterialReactTable
         displayColumnDefOptions={{
           "mrt-row-actions": {
@@ -166,7 +167,7 @@ const ProjectTable = () => {
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
-    </>
+    </div>
   );
 };
 

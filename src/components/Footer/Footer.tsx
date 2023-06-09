@@ -1,12 +1,12 @@
+import "./footer.css";
 function Footer() {
-    return (
-      <>
-        <p
-        className="fst-italic"
-        style={{ color: "white" }}>Copyright © 2023 Wszelkie prawa zastrzeżone PROJECT-MANAGER</p>
-      </>
-    );
-  }
-  
-  export default Footer;
-  
+  return (
+    <div className="footer">
+      <p className="fst-italic">
+        Copyright © 2023 Wszelkie prawa zastrzeżone PROJECT-MANAGER
+      </p>
+    </div>
+  );
+}
+
+export default Footer;
