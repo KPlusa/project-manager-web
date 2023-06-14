@@ -166,6 +166,7 @@ const ProjectTable = () => {
         id: "startDate",
         filterFn: "greaterThanOrEqualTo",
         sortingFn: "datetime",
+        accessorKey: "startDate",
         header: "Data Rozpoczęcia",
         Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(),
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
@@ -196,6 +197,7 @@ const ProjectTable = () => {
         header: "Data Zakończenia",
         filterFn: "lessThanOrEqualTo",
         sortingFn: "datetime",
+        accessorKey: "endDate",
         Cell: ({ cell }) => cell.getValue<Date>()?.toLocaleDateString(),
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -357,7 +359,6 @@ export const CreateNewProjectModal = ({
   const handleSubmit = () => {
     //put your validation logic here
     const newValidationErrors: Record<string, string> = {};
-
     // Iterate through the required fields and check for empty values
     requiredFields.forEach((field) => {
       if (field === "endDate" || field === "comments") {
